@@ -10,6 +10,7 @@ import (
 	"time"
 	_ "uc_task/car_park_api/config"
 	"uc_task/car_park_api/handler"
+	"uc_task/car_park_api/metric"
 
 	"log"
 	"uc_task/car_park_api/ds"
@@ -22,6 +23,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// for metrics
+	metric.NewMetric()
 
 	router := gin.Default()
 	h := handler.NewHandler(

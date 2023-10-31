@@ -28,9 +28,12 @@ func NewHandler(c *HConfig) *Handler {
 
 func (h *Handler) Register() {
 	h.R.Use(middleware.Cors())
-
 	// car park handler
 	carParkHandler := newCarParkHandler(h)
 	carParkHandler.register()
+
+	// metrics handler
+	metricsHandler := newMetricsHandler(h)
+	metricsHandler.register()
 
 }
