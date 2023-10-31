@@ -3,7 +3,7 @@ package models
 import "database/sql"
 
 // From basic_info_all
-// related to vacancy_info_all
+// related to vacancy_info_all_pretty.json
 type CarPark struct {
 	ParkID           string         `gorm:"primaryKey;type:varchar(20)"`
 	NameEN           string         `gorm:"type:varchar(50);not null"`

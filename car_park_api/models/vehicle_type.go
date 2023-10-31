@@ -19,6 +19,7 @@ const (
 	VehicleTypeBD VehicleTypeEnum = "B_D"
 )
 
+// related to vacancy_all_pretty.json
 type VehicleType struct {
 	ID                uint               `gorm:"primaryKey"`
 	CarParkID         string             `gorm:"type:varchar(20);unique;not null"`

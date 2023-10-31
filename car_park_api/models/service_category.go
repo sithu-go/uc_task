@@ -16,6 +16,7 @@ const (
 	VacancyTypeC VacancyTypeEnum = "C"
 )
 
+// related to vacancy_all_pretty.json
 type ServiceCategory struct {
 	ID             uint            `gorm:"primaryKey"`
 	VehicleTypeID  uint            `gorm:"not null;unique"`
