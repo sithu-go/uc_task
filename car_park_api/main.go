@@ -9,8 +9,10 @@ import (
 	"syscall"
 	"time"
 	_ "uc_task/car_park_api/config"
+	"uc_task/car_park_api/cronjob"
 	"uc_task/car_park_api/handler"
 	"uc_task/car_park_api/metric"
+	"uc_task/car_park_api/repo"
 
 	"log"
 	"uc_task/car_park_api/ds"
@@ -19,19 +21,25 @@ import (
 )
 
 func main() {
+	// for metrics
+	metric.NewMetric()
+
 	ds, err := ds.NewDataSource()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// for metrics
-	metric.NewMetric()
+	repository := repo.NewRepository(ds)
+
+	cronPool := cronjob.NewCronPool(repository)
+	cronPool.StartCronPool()
 
 	router := gin.Default()
 	h := handler.NewHandler(
 		&handler.HConfig{
-			R:  router,
-			DS: ds,
+			R:    router,
+			DS:   ds,
+			Repo: repository,
 		})
 
 	h.Register()
@@ -48,9 +56,9 @@ func main() {
 	}
 
 	go func() {
-		log.Println("server started listening on port : ", addr)
+		log.Printf("server started listening on port %v\n", addr)
 		if err := server.ListenAndServe(); err != nil {
-			log.Println("server failed to initialized  on port : ", addr)
+			log.Println("server failed to initialized  on port ", addr)
 			log.Fatalf("error on listening :%v\n", err)
 		}
 	}()

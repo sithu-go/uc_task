@@ -14,15 +14,15 @@ type Handler struct {
 }
 
 type HConfig struct {
-	R  *gin.Engine
-	DS *ds.DataSource
+	R    *gin.Engine
+	DS   *ds.DataSource
+	Repo *repo.Repository
 }
 
 func NewHandler(c *HConfig) *Handler {
-	repo := repo.NewRepository(c.DS)
 	return &Handler{
 		R:    c.R,
-		repo: repo,
+		repo: c.Repo,
 	}
 }
 

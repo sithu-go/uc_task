@@ -1,12 +1,13 @@
 module uc_task
 
-go 1.20
+go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.14.0
 	github.com/joho/godotenv v1.5.1
 	github.com/prometheus/client_golang v1.17.0
+	github.com/robfig/cron/v3 v3.0.1
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gorm v1.25.5
 )
