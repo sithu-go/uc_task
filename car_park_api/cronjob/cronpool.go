@@ -1,7 +1,9 @@
 package cronjob
 
 import (
+	"fmt"
 	"log"
+	"uc_task/car_park_api/metric"
 	"uc_task/car_park_api/models"
 	"uc_task/car_park_api/repo"
 
@@ -53,12 +55,14 @@ func (cp *cronPool) updateCarParkInformation() {
 	carParks, err := CollectCarParkInformation()
 	if err != nil {
 		log.Println(err.Error())
+		metric.Metrics.CronErrorCounter.WithLabelValues("updateCarParkInformation", err.Error(), "").Inc()
 		return
 	}
 	// update in table
 
 	if err := cp.repo.CarPark.CreateOrUpdateCarParks(carParks); err != nil {
 		log.Println(err.Error())
+		metric.Metrics.CronErrorCounter.WithLabelValues("updateCarParkInformation", err.Error(), "").Inc()
 		return
 	}
 
@@ -72,6 +76,7 @@ func (cp *cronPool) updateVacancyData() {
 	ids, err := cp.repo.CarPark.GetAllParkIDs()
 	if err != nil {
 		log.Println(err)
+		metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), "").Inc()
 		return
 	}
 
@@ -79,6 +84,7 @@ func (cp *cronPool) updateVacancyData() {
 		vacancyData, err := CollectVacancyInformation(id)
 		if err != nil {
 			log.Println(err.Error())
+			metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), fmt.Sprintf("id: %v", id)).Inc()
 			continue // Continue to the next ID
 		}
 
@@ -86,6 +92,7 @@ func (cp *cronPool) updateVacancyData() {
 		tx := cp.db.Begin()
 		if tx.Error != nil {
 			log.Println(tx.Error)
+			metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), fmt.Sprintf("id: %v", id)).Inc()
 			continue
 		}
 
@@ -101,6 +108,7 @@ func (cp *cronPool) updateVacancyData() {
 				if tx.Where("car_park_id = ? AND type = ?", vehicleType.CarParkID, vehicleType.Type).First(&existingVehicleType).Error == nil {
 					if err := tx.Model(&existingVehicleType).Updates(&vehicleType).Error; err != nil {
 						log.Println(err.Error())
+						metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), fmt.Sprintf("id: %v", id)).Inc()
 						tx.Rollback() // Rollback the transaction and exit
 						continue
 					}
@@ -108,6 +116,7 @@ func (cp *cronPool) updateVacancyData() {
 				} else {
 					if err := tx.Create(&vehicleType).Error; err != nil {
 						log.Println(err.Error())
+						metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), fmt.Sprintf("id: %v", id)).Inc()
 						tx.Rollback() // Rollback the transaction and exit
 						continue
 					}
@@ -126,12 +135,14 @@ func (cp *cronPool) updateVacancyData() {
 					if tx.Where("vehicle_type_id = ? AND category = ? AND vacancy_type = ?", serviceCategory.VehicleTypeID, serviceCategory.Category, serviceCategory.VacancyType).First(&existingServiceCategory).Error == nil {
 						if err := tx.Model(&existingServiceCategory).Updates(&serviceCategory).Error; err != nil {
 							log.Println(err.Error())
+							metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), fmt.Sprintf("id: %v", id)).Inc()
 							tx.Rollback() // Rollback the transaction and exit
 							continue
 						}
 					} else {
 						if err := tx.Create(&serviceCategory).Error; err != nil {
 							log.Println(err.Error())
+							metric.Metrics.CronErrorCounter.WithLabelValues("updateVacancyData", err.Error(), fmt.Sprintf("id: %v", id)).Inc()
 							tx.Rollback() // Rollback the transaction and exit
 							continue
 						}

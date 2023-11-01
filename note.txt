@@ -8,5 +8,5 @@ I won't be able to calculate occupancy changes
 Todo - add created_at, updated_at
 
 Finally, 
-add metrics in cron
+add metrics in cron -- DONE
 add custom metric api

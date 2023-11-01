@@ -6,6 +6,8 @@ type Metric struct {
 	RequestCounter  *prometheus.CounterVec
 	ErrorCounter    *prometheus.CounterVec
 	RequestDuration *prometheus.HistogramVec
+
+	CronErrorCounter *prometheus.CounterVec
 }
 
 var (
@@ -38,13 +40,23 @@ func NewMetric() {
 		[]string{"method", "endpoint"},
 	)
 
+	cronErrorCounter := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "cron_errors_total",
+			Help: "Total number of cron job errors and messages",
+		},
+		[]string{"job_name", "error_message", "data"},
+	)
+
 	prometheus.MustRegister(requestCounter)
 	prometheus.MustRegister(errorCounter)
 	prometheus.MustRegister(requestDuration)
+	prometheus.MustRegister(cronErrorCounter)
 
 	Metrics = &Metric{
-		RequestCounter:  requestCounter,
-		ErrorCounter:    errorCounter,
-		RequestDuration: requestDuration,
+		RequestCounter:   requestCounter,
+		ErrorCounter:     errorCounter,
+		RequestDuration:  requestDuration,
+		CronErrorCounter: cronErrorCounter,
 	}
 }
