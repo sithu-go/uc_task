@@ -23,7 +23,7 @@ func msgForTag(fe validator.FieldError) string {
 	case "gte", "lte":
 		return "invalid length"
 	default:
-		return "invalid payload" // default error
+		return fe.Error() // default error
 	}
 }
 

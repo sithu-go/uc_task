@@ -42,7 +42,7 @@ func (cp *cronPool) StartCronPool() {
 }
 
 func (cp *cronPool) runAtStartup() {
-	// cp.updateCarParkInformation()
+	cp.updateCarParkInformation()
 	cp.updateVacancyData()
 }
 

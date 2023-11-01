@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 	"uc_task/car_park_api/dto"
@@ -30,15 +31,18 @@ func (ctr *carParkHandler) register() {
 	group.GET("", ctr.getCarParks)
 }
 
+// localhost:9000/api/carParks?page=1&page_size=20&lat=22.362&lng=114.102&radius=30&name=发停&address=Kon
 func (ctr *carParkHandler) getCarParks(c *gin.Context) {
 	start := time.Now()
 
-	req := dto.PaginationRequest{}
+	req := dto.CarParkReq{}
 	if err := c.ShouldBind(&req); err != nil {
 		// increment The number of errors in processing HTTP requests to API endpoints
-		metric.Metrics.ErrorCounter.WithLabelValues(c.Request.Method, c.Request.URL.Path, "422").Inc()
+		log.Println(err.Error())
+		res := utils.GenerateValidationErrorResponse(err)
+		metric.Metrics.ErrorCounter.WithLabelValues(c.Request.Method, c.Request.URL.Path, fmt.Sprint(res.HttpStatusCode)).Inc()
 
-		c.JSON(http.StatusUnprocessableEntity, nil)
+		c.JSON(http.StatusUnprocessableEntity, res)
 		return
 	}
 
@@ -61,5 +65,6 @@ func (ctr *carParkHandler) getCarParks(c *gin.Context) {
 	// increment Total number of processed requests to API endpoints;
 	metric.Metrics.RequestCounter.WithLabelValues(c.Request.Method, c.Request.URL.Path, "200").Inc()
 
-	c.JSON(http.StatusOK, carParks)
+	res := utils.GenerateSuccessResponse(carParks)
+	c.JSON(res.HttpStatusCode, res)
 }
