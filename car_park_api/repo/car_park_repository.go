@@ -35,3 +35,24 @@ func (r *carParkRepository) FindAll(req *dto.PaginationRequest) ([]*models.CarPa
 	err := db.Find(&carParks).Error
 	return carParks, err
 }
+
+func (r *carParkRepository) CreateOrUpdateCarParks(carParks []*models.CarPark) error {
+	for _, carPark := range carParks {
+		// Attempt to find an existing record by its primary key (e.g., ParkID)
+		var existingCarPark models.CarPark
+		if err := r.DB.Where("park_id = ?", carPark.ParkID).First(&existingCarPark).Error; err != nil {
+			// If the record doesn't exist, create a new one
+			if err := r.DB.Create(&carPark).Error; err != nil {
+				return err
+			}
+		} else {
+			// Update the existing record with the new data
+			if err := r.DB.Model(&existingCarPark).Updates(carPark).Error; err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+
+}
