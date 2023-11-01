@@ -19,7 +19,7 @@ const (
 // related to vacancy_all_pretty.json
 type ServiceCategory struct {
 	ID             uint            `gorm:"primaryKey"`
-	VehicleTypeID  uint            `gorm:"not null;unique"`
+	VehicleTypeID  uint            `gorm:"not null"`
 	Category       CategoryEnum    `gorm:"type:ENUM('HOURLY', 'DAILY', 'MONTHLY');not null"`
 	VacancyType    VacancyTypeEnum `gorm:"type:ENUM('A', 'B', 'C');not null"`
 	CurrentVacancy int             `gorm:"not null"`

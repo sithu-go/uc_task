@@ -26,5 +26,5 @@ type APICarParkSingle struct {
 }
 
 type APICarParks struct {
-	CarPark []APICarParkSingle `json:"car_park"`
+	CarPark []*APICarParkSingle `json:"car_park"`
 }

@@ -78,3 +78,36 @@ func CollectCarParkInformation() ([]*models.CarPark, error) {
 
 	return carParks, nil
 }
+
+func CollectVacancyInformation(id string) (*dto.APICarParkVacancyData, error) {
+	// source := "https://resource.data.one.gov.hk/td/carpark/vacancy_all.json"
+	source := fmt.Sprintf("https://resource.data.one.gov.hk/td/carpark/vacancy_%v.json", id)
+	// Make an HTTP GET request to the API
+	response, err := http.Get(source)
+	if err != nil {
+		log.Println("http request problem")
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	// Read the response body
+	data, err := io.ReadAll(response.Body)
+	if err != nil {
+		log.Println("io read problem")
+		return nil, err
+
+	}
+
+	trimmedData := strings.TrimPrefix(string(data), "\xef\xbb\xbf") // Remove UTF-8 BOM
+
+	var vacancyData dto.APICarParkVacancyData
+	if err := json.Unmarshal([]byte(trimmedData), &vacancyData); err != nil {
+		// if err := json.Unmarshal([]byte(trimmedData), &carParksData); err != nil {
+		log.Println("unmarshalling problem")
+		return nil, err
+
+	}
+
+	// log.Printf("%+v\n", vacancyData)
+	return &vacancyData, nil
+}

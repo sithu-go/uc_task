@@ -56,3 +56,12 @@ func (r *carParkRepository) CreateOrUpdateCarParks(carParks []*models.CarPark) e
 	return nil
 
 }
+
+func (r *carParkRepository) GetAllParkIDs() ([]string, error) {
+	var parkIDs []string
+	if err := r.DB.Model(&models.CarPark{}).Pluck("ParkID", &parkIDs).Error; err != nil {
+		return nil, err
+	}
+
+	return parkIDs, nil
+}
