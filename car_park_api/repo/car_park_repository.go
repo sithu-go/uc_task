@@ -149,6 +149,12 @@ func (r *carParkRepository) FindVacancyData(req *dto.VacacncyReq) (map[string]an
 		vehicleData := make([]map[string]any, 0)
 		for _, vehicleType := range carPark.VehicleTypes {
 			vehicleInfo := make(map[string]any)
+
+			// log.Println(*req.VehicleType, vehicleType.Type, "JJ")
+			if req.VehicleType != nil && *req.VehicleType != vehicleType.Type {
+				continue
+			}
+
 			vehicleInfo["type"] = vehicleType.Type
 
 			serviceCategoryData := make([]map[string]any, 0)
