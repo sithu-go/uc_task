@@ -44,6 +44,9 @@ Start the server
 
 
 ## Project Structure
+
+The directory structure presented represents "car_park_api". This application manages car park-related data, provides an API for accessing this information, and includes features such as database connectivity, scheduled data collection, and metric monitoring. Key components include configuration settings, route handlers, database models, middleware for CORS support, and utilities for various tasks. Notably, the application uses scheduled cron jobs to periodically collect data from external APIs and update the database with the latest information. This organized structure simplifies the development and maintenance of the car park API.
+
 ```tree
 car_park_api/
 ├── main.go                  # Main application entry point
