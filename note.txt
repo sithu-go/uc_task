@@ -4,7 +4,7 @@
 Note: I don't have historical occupancy data to track changes during a specific period. 
 I won't be able to calculate occupancy changes, But I can check current vacancies
 
-3. - can see new car parks 
+3. - can see new car parks  -- DONE
 Todo - add created_at, updated_at -- DONE
 
 Finally, 

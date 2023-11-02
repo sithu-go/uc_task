@@ -1,6 +1,8 @@
 package repo
 
 import (
+	"fmt"
+	"strings"
 	"uc_task/car_park_api/ds"
 	"uc_task/car_park_api/dto"
 	"uc_task/car_park_api/models"
@@ -55,6 +57,10 @@ func (r *carParkRepository) FindAll(req *dto.CarParkReq) ([]*models.CarPark, err
 		latMin, latMax, lngMin, lngMax := utils.CalculateBounds(*req.Lat, *req.Lng, *req.Radius)
 
 		db.Where("latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?", latMin, latMax, lngMin, lngMax)
+	}
+
+	if req.OrderBy != nil && (strings.ToUpper(*req.OrderBy) == "ASC" || strings.ToUpper(*req.OrderBy) == "DESC") {
+		db.Order(fmt.Sprintf("created_at %v", strings.ToUpper(*req.OrderBy)))
 	}
 
 	db.Scopes(utils.Paginate(req.Page, req.PageSize))
