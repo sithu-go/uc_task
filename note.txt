@@ -1,11 +1,11 @@
 1. - can find carpark (by name, address, location, another parameters) -- DONE
 
-2. - can check occupancy and changes during specific period -- 
+2. - can check occupancy and changes during specific period -- DONE
 Note: I don't have historical occupancy data to track changes during a specific period. 
-I won't be able to calculate occupancy changes
+I won't be able to calculate occupancy changes, But I can check current vacancies
 
 3. - can see new car parks 
-Todo - add created_at, updated_at
+Todo - add created_at, updated_at -- DONE
 
 Finally, 
 add metrics in cron -- DONE

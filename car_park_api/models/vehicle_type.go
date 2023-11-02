@@ -1,5 +1,11 @@
 package models
 
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
+
 type VehicleTypeEnum string
 
 const (
@@ -27,4 +33,7 @@ type VehicleType struct {
 	CarParkID         string             `gorm:"type:varchar(20);not null"`
 	Type              VehicleTypeEnum    `gorm:"type:char(3);not null;type:ENUM('P', 'M', 'L', 'H', 'C', 'T', 'B', 'O', 'N', 'P_D', 'M_D', 'L_D', 'H_D', 'C_D', 'T_D', 'B_D')"`
 	ServiceCategories []*ServiceCategory `gorm:"foreignKey:VehicleTypeID"`
+	CreatedAt         time.Time          `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt         time.Time          `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt         gorm.DeletedAt     `json:"-"`
 }

@@ -3,6 +3,9 @@ package models
 import (
 	"database/sql"
 	"encoding/json"
+	"time"
+
+	"gorm.io/gorm"
 )
 
 // From basic_info_all
@@ -30,6 +33,9 @@ type CarPark struct {
 	WebsiteTC        sql.NullString  `gorm:"type:varchar(100)" json:"website_tc"`
 	WebsiteSC        sql.NullString  `gorm:"type:varchar(100)" json:"website_sc"`
 	CarparkPhoto     sql.NullString  `gorm:"type:varchar(100)" json:"carpark_photo"`
+	CreatedAt        time.Time       `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt        time.Time       `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt        gorm.DeletedAt  `json:"-"`
 
 	VehicleTypes []*VehicleType `gorm:"foreignKey:CarParkID" json:"-"`
 }
