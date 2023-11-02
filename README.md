@@ -16,6 +16,62 @@ This repository contains a project for collecting and managing data related to c
 
 * mysql
     
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/sithu-go/uc_task
+```
+
+Go to the project directory
+
+```bash
+  cd uc_task
+```
+
+Install dependencies
+
+```bash
+  go mod tidy
+```
+
+Start the server
+
+```bash
+  go run car_park_api/main.go
+```
+
+
+## Project Structure
+```tree
+car_park_api/
+├── main.go                  # Main application entry point
+├── config/                  # Configuration files or settings
+│   ├── config.go            # Application configuration
+├── cronjob/                 # Configuration files or settings
+│   ├── collector.go         # Collector for car park information and parking vacancies
+│   ├── cronpool.go          # Cron jobs which run at startup, every start of five minutes and 1 am
+├── data/                    # Folder for storing data files (e.g., JSON files)
+├── ds/                      # Folder for database source
+│   ├── mysql_ds.go          # Making database connection and migrating table structure
+├── dto/                     # For data transformation and validation
+├── handler/                 # Route handlers
+│   ├── car_park_handler.go  # handler for car park info and parking vacancy info 
+│   ├── metric_handler.go    # handler for metric data powered by prometheus
+├── metric/                  # Metrics and monitoring code
+│   ├── metrics.go           # Metrics implementation and Metric global variables for global usage
+├── middleware/              # Middleware
+│   ├── cors_middleware.go   # Allow cross-origin requests while maintaining security
+├── models/                  # Database struct/model definitions
+│   ├── car_park.go          # GORM model for car park table
+│   ├── vehicle_type.go      # GORM model for vehicle type table like which type of car is allowed in car park
+│   ├── service_category.go  # GORM model for service category table which has fields like vacancies
+├── repo/                    # Database connection setup
+│   ├──car_park_repository.go# Repository for making operations on car park table like searches
+├── utils/                   # Folder where utility functions are stored
+├── README.md                # Documentation
+```
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file. You can see example in _./car_park_api/config/.env.example_
@@ -93,7 +149,7 @@ I don't have route for this because you can search with `park_id`
 | cron_errors_total    | CounterVec       | Total number of cron job errors and messages.| Labels: job_name, error_message, data(e.g. id)                               |
 
 
-## Authors
+## Author
 
 - [@sithu-go](https://www.github.com/sithu-go)
 
