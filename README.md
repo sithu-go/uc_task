@@ -120,11 +120,13 @@ To run this project, you will need to add the following environment variables to
 | Parameter     | Type          | Description                                           |
 | :--------     | :-------      | :-----------------------------------------------------|
 | `park_id`     | `string`      | ID of the car park                                    |
-| `start_date`  | `string`      | For checking recent vacacncy within start_date and end_date e.g. 2022-11-11 or 2022-11-11 10:00:00|
-| `end_date`    | `string`      | For checking recent vacacncy within start_date and end_date e.g. 2022-11-13 or 2022-11-13 10:00:00|
-| `vehicle_type`| `string`      | **One of** (_P_, _M_, _L_, _H_, _C_, _T_, _B_, _O_, _N_, _P_D_, _M_D_, _L_D_, _H_D_, _C_D_, _T_D_, _B_D_) Type of vehicle.                                    |
-| `page`        | `int`     | **Required.** the number of records to skip or page number|
-| `page_size`   | `int`     | **Required.** the number of records or page size          |
+| `start_date`  | `string`      | For checking recent vacacncy within start_date and end_date e.g. 2022-11-11 or 2022-11-11 10:00:00  |
+| `end_date`    | `string`      | For checking recent vacacncy within start_date and end_date e.g. 2022-11-13 or 2022-11-13 10:00:00  |
+| `vehicle_type`| `string`      | **One of** (_P_, _M_, _L_, _H_, _C_, _T_, _B_, _O_, _N_, _P_D_, _M_D_, _L_D_, _H_D_, _C_D_, _T_D_, _B_D_) Type of vehicle.  |
+| `vacancy_type`| `string`      | **One of** (_A_, _B_, _C_) Availability of parking space|
+| `current_vacancy` | `int`     | If vacacncy_type is _A_, _0_ is full, _-1_ is no data. If _B_, _0_ is full, _1_ is available, _-1_ is no data. If _C_, always _0_.          |
+| `page`        | `int`         | **Required.** the number of records to skip or page number  |
+| `page_size`   | `int`         | **Required.** the number of records or page size          |
 
 #### Note:
 
