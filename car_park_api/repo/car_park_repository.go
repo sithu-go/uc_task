@@ -100,7 +100,7 @@ func (r *carParkRepository) GetAllParkIDs() ([]string, error) {
 	return parkIDs, nil
 }
 
-func (r *carParkRepository) FindVacancyData(req *dto.VacacncyReq) (map[string]any, error) {
+func (r *carParkRepository) FindVacancyData(req *dto.VacancyReq) (map[string]any, error) {
 	var carParks []*models.CarPark
 	db := r.DB.Model(&models.CarPark{})
 	// preloading of related associations
@@ -111,15 +111,23 @@ func (r *carParkRepository) FindVacancyData(req *dto.VacacncyReq) (map[string]an
 	db.Joins("JOIN service_categories ON vehicle_types.id = service_categories.vehicle_type_id")
 
 	if req.ParkID != nil {
-		db = db.Where("car_parks.park_id = ?", *req.ParkID)
+		db.Where("car_parks.park_id = ?", *req.ParkID)
 	}
 
 	if req.VehicleType != nil {
-		db = db.Where("vehicle_types.type = ?", *req.VehicleType)
+		db.Where("vehicle_types.type = ?", *req.VehicleType)
+	}
+
+	if req.VacancyType != nil {
+		db.Where("service_categories.vacancy_type", *req.VacancyType)
+	}
+
+	if req.CurrentVacancy != nil {
+		db.Where("service_categories.current_vacancy", *req.CurrentVacancy)
 	}
 
 	if req.StartDate != nil && req.EndDate != nil {
-		db = db.Where("service_categories.created_at >= ? AND service_categories.created_at <= ?", req.StartDate, req.EndDate)
+		db.Where("service_categories.created_at >= ? AND service_categories.created_at <= ?", req.StartDate, req.EndDate)
 	}
 
 	db.Group("car_parks.park_id")
@@ -150,7 +158,6 @@ func (r *carParkRepository) FindVacancyData(req *dto.VacacncyReq) (map[string]an
 		for _, vehicleType := range carPark.VehicleTypes {
 			vehicleInfo := make(map[string]any)
 
-			// log.Println(*req.VehicleType, vehicleType.Type, "JJ")
 			if req.VehicleType != nil && *req.VehicleType != vehicleType.Type {
 				continue
 			}

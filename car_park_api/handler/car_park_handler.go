@@ -72,7 +72,7 @@ func (ctr *carParkHandler) getCarParks(c *gin.Context) {
 func (ctr *carParkHandler) getVacancyInfo(c *gin.Context) {
 	start := time.Now()
 
-	req := dto.VacacncyReq{}
+	req := dto.VacancyReq{}
 	if err := c.ShouldBind(&req); err != nil {
 		res := utils.GenerateValidationErrorResponse(err)
 		metric.Metrics.ErrorCounter.WithLabelValues(c.Request.Method, c.Request.URL.Path, fmt.Sprint(res.HttpStatusCode)).Inc()

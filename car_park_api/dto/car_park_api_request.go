@@ -16,10 +16,12 @@ type CarParkReq struct {
 	PaginationRequest
 }
 
-type VacacncyReq struct {
-	ParkID      *string                 `form:"park_id" json:"park_id"`
-	StartDate   *string                 `form:"start_date" json:"start_date"`
-	EndDate     *string                 `form:"end_date" json:"end_date"`
-	VehicleType *models.VehicleTypeEnum `form:"vehicle_type" json:"vehicle_type"`
+type VacancyReq struct {
+	ParkID         *string                 `form:"park_id" json:"park_id"`
+	StartDate      *string                 `form:"start_date" json:"start_date"`
+	EndDate        *string                 `form:"end_date" json:"end_date"`
+	VehicleType    *models.VehicleTypeEnum `form:"vehicle_type" json:"vehicle_type"`
+	VacancyType    *string                 `form:"vacancy_type" json:"vacancy_type" binding:"omitempty,oneof=A B C"`
+	CurrentVacancy *int                    `form:"current_vacancy" json:"current_vacancy"`
 	PaginationRequest
 }
