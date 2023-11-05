@@ -1,0 +1,6 @@
+appVersion: 1
+datasources:
+- name: Main
+  type: prometheus
+  url: http://prometheus:9090
+  isDefault: true

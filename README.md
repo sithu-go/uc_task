@@ -3,19 +3,17 @@
 
 This repository contains a project for collecting and managing data related to car parks, including their basic information, real-time vacancy data. The system is designed to provide information about car parks, check occupancy and changes during specific periods, and identify new car parks.
 
-
 ## Features
 
 - Find Car Parks
-    - Enable users to find car parks by name, address, location, and other parameters.
+  - Enable users to find car parks by name, address, location, and other parameters.
 - Check vacancies for parking
 - Identify New Car Parks
 
-
 ## Requirements
 
-* mysql
-    
+- mysql
+
 ## Run Locally
 
 Clone the project
@@ -42,6 +40,11 @@ Start the server
   go run car_park_api/main.go
 ```
 
+For visualization, change your ip in prometheus.yml
+
+```bash
+  docker compose up
+```
 
 ## Project Structure
 
@@ -75,6 +78,7 @@ car_park_api/
 ├── utils/                   # Folder where utility functions are stored
 ├── README.md                # Documentation
 ```
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file. You can see example in _./car_park_api/config/.env.example_
@@ -90,9 +94,10 @@ To run this project, you will need to add the following environment variables to
 `MYSQL_NAME`
 
 `APP_PORT`
+
 ## API Reference
 
-#### Get information about car parks
+### Get information about car parks
 
 ```http
   GET /api/carParks
@@ -109,7 +114,6 @@ To run this project, you will need to add the following environment variables to
 | `order_by`    | `string`  | **One of** (_ASC_ or _DESC_) to check new car park                                    |
 | `page`        | `int`     | **Required.** the number of records to skip or page number |
 | `page_size`   | `int`     | **Required.** the number of records or page size           |
-
 
 #### Get information about vacancy data
 
@@ -128,7 +132,7 @@ To run this project, you will need to add the following environment variables to
 | `page`        | `int`         | **Required.** the number of records to skip or page number  |
 | `page_size`   | `int`         | **Required.** the number of records or page size          |
 
-#### Note:
+#### Note
 
 I don't have route for this because you can search with `park_id`
 
@@ -153,8 +157,6 @@ I don't have route for this because you can search with `park_id`
 | http_request_duration_seconds     | HistogramVec     | Duration of HTTP requests in seconds.       | Labels: method, endpoint  |
 | cron_errors_total    | CounterVec       | Total number of cron job errors and messages.| Labels: job_name, error_message, data(e.g. id)                               |
 
-
 ## Author
 
 - [@sithu-go](https://www.github.com/sithu-go)
-
